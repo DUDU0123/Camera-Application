@@ -5,9 +5,11 @@ import 'package:camera_app/screens/imageshowing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class PictureCapturePage extends StatefulWidget {
-  PictureCapturePage({super.key});
+ const PictureCapturePage({super.key});
   @override
   State<PictureCapturePage> createState() => _PictureCapturePageState();
 }
@@ -61,6 +63,23 @@ class _PictureCapturePageState extends State<PictureCapturePage> {
                             setState(() {
                               capturedImage = File(pickedImage.path);
                             });
+
+                            // Creating a folder by getting documents directory
+                            final externalStorageDir = await getExternalStorageDirectory();
+                            print('$externalStorageDir is folder path');
+                            final folderPath = "${externalStorageDir?.path}/camera_image/";
+                            // Checking folder exists or not. If not it will create one
+                            if (!await Directory(folderPath).exists()) {
+                              await Directory(folderPath).create(recursive: true);
+                            }
+
+                            final newFilePath = folderPath + capturedImage!.path.split('/').last;
+                            await capturedImage!.copy(newFilePath);
+
+
+
+
+
                             final imagemodel =
                                 ImageModel(imagepath: capturedImage?.path);
                             BlocProvider.of<CameraBloc>(context)
