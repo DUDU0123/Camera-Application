@@ -7,9 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class PictureCapturePage extends StatefulWidget {
- const PictureCapturePage({super.key});
+  const PictureCapturePage({super.key});
   @override
   State<PictureCapturePage> createState() => _PictureCapturePageState();
 }
@@ -65,20 +64,19 @@ class _PictureCapturePageState extends State<PictureCapturePage> {
                             });
 
                             // Creating a folder by getting documents directory
-                            final externalStorageDir = await getExternalStorageDirectory();
-                            print('$externalStorageDir is folder path');
-                            final folderPath = "${externalStorageDir?.path}/camera_image/";
+                            final externalStorageDir =
+                                await getExternalStorageDirectory();
+                            final folderPath =
+                                "${externalStorageDir?.path}/camera_image/";
                             // Checking folder exists or not. If not it will create one
                             if (!await Directory(folderPath).exists()) {
-                              await Directory(folderPath).create(recursive: true);
+                              await Directory(folderPath)
+                                  .create(recursive: true);
                             }
-
-                            final newFilePath = folderPath + capturedImage!.path.split('/').last;
+                            //moving the image to that folder
+                            final newFilePath = folderPath +
+                                capturedImage!.path.split('/').last;
                             await capturedImage!.copy(newFilePath);
-
-
-
-
 
                             final imagemodel =
                                 ImageModel(imagepath: capturedImage?.path);
@@ -118,7 +116,8 @@ class _PictureCapturePageState extends State<PictureCapturePage> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: FileImage(
-                                      File(state.imageList[index].imagepath!)),
+                                    File(state.imageList[index].imagepath!),
+                                  ),
                                 ),
                               ),
                             ),

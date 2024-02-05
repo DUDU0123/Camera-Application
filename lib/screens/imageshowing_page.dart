@@ -34,9 +34,9 @@ class ImageShowingPage extends StatelessWidget {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(image: FileImage(File(capturedImage))),
-        ),
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(image: FileImage(File(capturedImage))),
+        // ),
         child: PhotoView(
           enableRotation: true,
           imageProvider: FileImage(File(capturedImage)),
